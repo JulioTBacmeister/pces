@@ -1,0 +1,62 @@
+
+!  $Id: qsatorig.code,v 1.1.1.1 2004/05/10 20:13:12 bacmj Exp $
+
+#ifdef SCALAR
+#define WHERE(A)  IF(A) THEN
+#define ELSEWHERE ELSE
+#define ENDWHERE ENDIF
+#else
+#undef WHERE
+#undef ELSEWHERE
+#undef ENDWHERE
+#endif      
+
+#include "qsat.h"
+
+      T   = MAX(MIN(TL-ZEROC,TMAX),TMIN)
+
+
+      WHERE(T.LT.TSTARR1)
+       QX = (T*(T*(T*(T*(T*(T*S16+S15)+S14)+S13)+S12)+S11)+S10)
+      ENDWHERE
+
+      WHERE(T.GE.TSTARR1.AND.T.LT.TSTARR2)
+       W = (TSTARR2 - T)/(TSTARR2-TSTARR1)
+       QX =     W *(T*(T*(T*(T*(T*(T*S16+S15)+S14)+S13)+S12)+S11)+S10) &
+          + (1.-W)*(T*(T*(T*(T*(T*(T*S26+S25)+S24)+S23)+S22)+S21)+S20)
+      ENDWHERE
+
+      WHERE(T.GE.TSTARR2.AND.T.LT.TSTARR3)
+       QX = (T*(T*(T*(T*(T*(T*S26+S25)+S24)+S23)+S22)+S21)+S20)
+      ENDWHERE
+
+      WHERE(T.GE.TSTARR3.AND.T.LT.TSTARR4)
+       W = (TSTARR4 - T)/(TSTARR4-TSTARR3)
+       QX =     W *(T*(T*(T*(T*(T*(T*S26+S25)+S24)+S23)+S22)+S21)+S20) &
+          + (1.-W)*(T*(T*(T*(T*(T*(T*BI6+BI5)+BI4)+BI3)+BI2)+BI1)+BI0)
+       ENDWHERE
+
+      WHERE(T.GE.TSTARR4.AND.T.LT.TMIX)
+       QX = (T*(T*(T*(T*(T*(T*BI6+BI5)+BI4)+BI3)+BI2)+BI1)+BI0)
+      ENDWHERE
+
+      WHERE(T.GE.TMIX.AND.T.LE.0.)
+       W = (TMIX - T)/TMIX
+       QX =     W *(T*(T*(T*(T*(T*(T*B6+B5)+B4)+B3)+B2)+B1)+B0)        &
+          + (1.-W)*(T*(T*(T*(T*(T*(T*BI6+BI5)+BI4)+BI3)+BI2)+BI1)+BI0)
+      ENDWHERE
+
+      WHERE(T.GT.0.)
+       QX = (T*(T*(T*(T*(T*(T*B6+B5)+B4)+B3)+B2)+B1)+B0)
+      ENDWHERE
+
+      D = (PL - ERFAC*QX)
+
+    
+      WHERE(D.LE.0.)
+       QSAT = MAX_MIXING_RATIO
+      ELSEWHERE
+       QSAT = MIN(QX / D,MAX_MIXING_RATIO)
+      ENDWHERE
+
+      RETURN

@@ -1,0 +1,72 @@
+!  $Id: finalize.code,v 1.5 2005/08/16 20:17:51 bacmj Exp $
+!
+!-----------------------------
+   open( unit=lun , file=restart_file, form='unformatted' )
+
+   write( lun )  np
+
+   do ip=1,np
+       pce = pces(ip)
+           ! sizes
+       write( lun )  size( PCE%A  )
+       write( lun )  size( PCE%RX,2  )
+           ! arrays 
+       write( lun )  PCE%ZGE
+       write( lun )  PCE%PPL
+       write( lun )  PCE%PPE
+       write( lun )  PCE%U
+       write( lun )  PCE%V
+       write( lun )  PCE%W
+       write( lun )  PCE%UR
+       write( lun )  PCE%THETA
+       write( lun )  PCE%THBCK
+       write( lun )  PCE%Q
+       write( lun )  PCE%QL
+       write( lun )  PCE%QI
+       write( lun )  PCE%QR
+       write( lun )  PCE%QS
+       write( lun )  PCE%QH
+       write( lun )  PCE%RX
+       write( lun )  PCE%A
+       write( lun )  PCE%A_NM1
+       write( lun )  PCE%ATF
+       write( lun )  PCE%X
+       write( lun )  PCE%Y
+
+           ! constants (REAL)
+       write( lun )  PCE%QPREC
+       write( lun )  PCE%Z0
+       write( lun )  PCE%PS
+       write( lun )  PCE%AGE
+       write( lun )  PCE%A0
+       write( lun )  PCE%ASH
+       write( lun )  PCE%TIME
+       write( lun )  PCE%MAXW00
+       write( lun )  PCE%MAXWTF
+       write( lun )  PCE%XMEAN
+       write( lun )  PCE%YMEAN
+
+       write( lun )  PCE%STATUS
+       write( lun )  PCE%LAST_SPAWN
+       write( lun )  PCE%RAIN_GAUGE
+       write( lun )  PCE%SNOW_GAUGE
+       write( lun )  PCE%HAIL_GAUGE
+
+           ! constants (INTEGER)
+       write( lun )  PCE%TYPE_OF_CE
+       write( lun )  PCE%MY_DNDRFT
+       write( lun )  PCE%MY_UPDRFT
+       write( lun )  PCE%MY_ENV
+       write( lun )  PCE%NEED_DNDRFT
+       write( lun )  PCE%MERGE_WITH
+       write( lun )  PCE%REMOVE_ME
+
+       write( lun )  PCE%IPC
+       write( lun )  PCE%L
+       write( lun )  PCE%K
+       write( lun )  PCE%I
+       write( lun )  PCE%J
+       write( lun )  PCE%NPOP
+           ! constants (CHAR*32)
+       write( lun )  PCE%CONFIG
+   end do

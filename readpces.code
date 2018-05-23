@@ -1,0 +1,65 @@
+   open( unit=lun , file=restart_file, form='unformatted' )
+
+   read( lun )  np
+
+   allocate(pces(np))
+
+   do i=1,np
+      read( lun ) lp
+      read( lun ) k
+      CALL CREATE_CE1 ( LP , K , PCE )  
+
+
+       read( lun )  PCE%ZGE
+       read( lun )  PCE%PPL
+       read( lun )  PCE%PPE
+       read( lun )  PCE%U
+       read( lun )  PCE%V
+       read( lun )  PCE%W
+       read( lun )  PCE%UR
+       read( lun )  PCE%THETA
+       read( lun )  PCE%Q
+       read( lun )  PCE%QL
+       read( lun )  PCE%QI
+       read( lun )  PCE%QR
+       read( lun )  PCE%QS
+       read( lun )  PCE%QH
+       read( lun )  PCE%RX
+       read( lun )  PCE%A
+       read( lun )  PCE%A_NM1
+       read( lun )  PCE%X
+       read( lun )  PCE%Y
+           ! constants (REAL)
+       read( lun )  PCE%Z0
+       read( lun )  PCE%PS
+       read( lun )  PCE%AGE
+       read( lun )  PCE%A0
+       read( lun )  PCE%TIME
+       read( lun )  PCE%MAXW00
+       read( lun )  PCE%MAXWTF
+       read( lun )  PCE%STATUS
+           ! constants (INTEGER)
+       read( lun )  PCE%TYPE_OF_CE
+       read( lun )  PCE%MY_DNDRFT
+       read( lun )  PCE%MY_UPDRFT
+       read( lun )  PCE%MY_ENV
+       read( lun )  PCE%NEED_DDRFT
+       read( lun )  PCE%MERGED
+       read( lun )  PCE%REMOVE_ME
+
+
+
+
+       read( lun )  PCE%IPC
+       read( lun )  PCE%L
+       read( lun )  PCE%K
+       read( lun )  PCE%I
+       read( lun )  PCE%J
+       read( lun )  PCE%NPOP
+           ! constants (CHAR*32)
+       read( lun )  PCE%CONFIG
+
+
+       pces(i)=pce
+      
+   end do

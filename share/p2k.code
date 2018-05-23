@@ -1,0 +1,3 @@
+#include "misc_parms.h"
+          P2K = real(PL,kind=8) ** RKAP_8
+          RETURN

@@ -1,0 +1,111 @@
+&cntrls
+ModelTime=1998., 6., 3., 12., 0., 0.
+DATAFILE='arm_scmx'
+LenSeg=  180
+nsegs=  4
+nupds=1
+DOMX = 1.e6
+DOMY = 1.e6
+U0   = 00.
+V0   = 00.
+USHR = 10.
+VSHR = 00.
+SHRDPTH = 5000.
+PCE_DT = 1.25 !2.5
+uniform_strat = .false.
+/
+
+
+&diags 
+Diag_dt = 10. 
+/
+
+&adjparams
+ DO_ENVIRO_SUBSI = .true.
+/
+
+&entparams
+ USE_FIXED_UE = .false.
+ UER_FIXED =  -0.333 ! -0.333
+ USE_W_2_UE = .true.
+ W_2_UER = 1.e-5 ! 0.001
+ USE_UR_2_UE = .false.
+ UR_2_UER_ENT = 0.1 ! 0.9 !1.0e-2 !-1
+ UR_2_UER_DET = 0.1 ! 0.9 !0.90 !-1
+ MUNCH_VEL = 0.00001
+ INEST_FOR_ENTR_ENV = 1
+ DO_GUST_MUNCHING = .true.
+ GUST_MUNCH_UR = 100.
+ SHAFT_ENTRAINMENT = 1        !!2=overhang style
+/
+
+&dynparams
+ BUOY_VIRTUAL  = 0
+ BUOY_CONDLOAD = 0
+ THETA_ADVECTION   = -1 ! -1=Split- BCKG(2nd Order)+pert(PPM), 0=PPM
+ W_NU_DEL4 = -0.01
+ THETA_NU_DEL4 = -0.01
+/
+
+
+&vdiffparams
+ KZZ_BCKG      = 1.0e-2
+ VDIFF_LAMBDA  = 10.
+ WDAMP_TAU     = -10000. 
+/
+
+
+&spongeparams
+ USE_SPONGE_LYR  = .true.
+ SPONGE_LYR_BASE = 29000.
+/
+
+&pplumeparams
+ USE_PRESCRIBED_PLUME = .false. 
+ PRESCRIBED_PLUME_HEIGHT=16000.
+ PRESCRIBED_PLUME_BASER=10000.
+ PRESCRIBED_PLUME_W=11.
+/
+
+&shaftparams
+ CreatePrecShaftValue = 1.0e-3
+ USE_SIMPLE_SHARE_PREC = .true.
+ TOP_DOWN_SHAFT        = .true.
+ SIMPLE_SHARE_PREC_FRAC = 0.5
+ SIMPLE_SHARE_AREA_FCTR =  0.3333
+ SHARE_PRECIP_COMPLEXITY = 2
+ SHARE_THROUGH_COLUMN = .false.
+ SHARE_PRECIP_V = 0 ! 5
+ UPDFT_PRECIP_COLLAR =.false.
+/
+
+&uphysparams
+ USE_MORRISON_UPHYS = .true.
+/
+
+&mgmtparams
+ NEVER_KILL_UPDS = .true.
+ TINY_CONDENSATE_MR = 1.e-6
+/
+
+&initbblparams
+ INITBBL_RADMAX=100. ! 10000.
+ INITBBL_ZCEN  =5000.
+ INITBBL_DPTH  =1000.
+ INITBBL_THP0  =30. 
+ INITBBL_W0    =0.
+/
+
+&psolvparams
+ PSOLV= 1
+/
+
+&processcntrl
+ do_uphys = .false.
+ do_precipitation=.false.
+ do_subsidence=.false.
+ do_vdiff=.false.
+ do_interactions=.false.
+ do_subcloud_flux = .false.
+/
+

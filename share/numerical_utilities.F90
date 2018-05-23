@@ -1,0 +1,142 @@
+      MODULE NUMERICAL_UTILITIES
+
+!      <%Z%     %Y% $Id: numerical_utilities.F90,v 1.1.1.1 2004/05/10 20:13:12 bacmj Exp $>
+
+
+       IMPLICIT NONE
+
+       PRIVATE
+
+       PUBLIC P2K, QSAT, DQSAT
+
+       INTERFACE P2K
+        MODULE PROCEDURE P2K0
+        MODULE PROCEDURE P2K1
+        MODULE PROCEDURE P2K2
+        MODULE PROCEDURE P2K3
+        MODULE PROCEDURE P2K4
+       END INTERFACE
+
+       INTERFACE QSAT
+        MODULE PROCEDURE QSAT0
+        MODULE PROCEDURE QSAT1
+        MODULE PROCEDURE QSAT2
+        MODULE PROCEDURE QSAT3
+        MODULE PROCEDURE QSAT4
+       END INTERFACE
+
+       INTERFACE DQSAT
+        MODULE PROCEDURE DQSAT0
+        MODULE PROCEDURE DQSAT1
+        MODULE PROCEDURE DQSAT2
+        MODULE PROCEDURE DQSAT3
+        MODULE PROCEDURE DQSAT4
+       END INTERFACE
+
+
+       CONTAINS
+
+!  P2K
+
+       FUNCTION P2K0(PL) RESULT(P2K)
+         REAL, INTENT(IN) :: PL
+         REAL  T, P2K
+#define SCALAR
+#include "p2k.code" 
+#undef SCALAR
+        END FUNCTION P2K0
+
+       FUNCTION P2K1(PL) RESULT(P2K)
+         REAL, DIMENSION(:), INTENT(IN) :: PL
+         REAL, DIMENSION(SIZE(PL,1)) :: T, P2K
+#include  "p2k.code" 
+        END FUNCTION P2K1
+
+       FUNCTION P2K2(PL) RESULT(P2K)
+         REAL, DIMENSION(:,:), INTENT(IN) :: PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2)) :: T, P2K
+#include  "p2k.code"
+        END FUNCTION P2K2
+
+       FUNCTION P2K3(PL) RESULT(P2K)
+         REAL, DIMENSION(:,:,:), INTENT(IN) :: PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2),SIZE(PL,3)) :: T, P2K
+#include   "p2k.code"
+        END FUNCTION P2K3
+
+       FUNCTION P2K4(PL) RESULT(P2K)
+         REAL, DIMENSION(:,:,:,:), INTENT(IN) :: PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2),SIZE(PL,3),SIZE(PL,4)) :: T, P2K
+#include   "p2k.code"
+        END FUNCTION P2K4
+
+!  QSAT
+
+       FUNCTION QSAT0(TL,PL) RESULT(QSAT)
+         REAL, INTENT(IN) :: TL, PL
+         REAL  QSAT, T, QX, D, W
+#define SCALAR
+#include "qsat.code" 
+#undef SCALAR
+        END FUNCTION QSAT0
+
+       FUNCTION QSAT1(TL,PL) RESULT(QSAT)
+         REAL, DIMENSION(:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1)) :: QSAT, T, QX, D, W
+#include  "qsat.code" 
+        END FUNCTION QSAT1
+
+       FUNCTION QSAT2(TL,PL) RESULT(QSAT)
+         REAL, DIMENSION(:,:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2)) :: QSAT, T, QX, D, W
+#include  "qsat.code" 
+        END FUNCTION QSAT2
+
+       FUNCTION QSAT3(TL,PL) RESULT(QSAT)
+         REAL, DIMENSION(:,:,:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2),SIZE(PL,3)) :: QSAT, T, QX, D, W
+#include  "qsat.code" 
+        END FUNCTION QSAT3
+
+       FUNCTION QSAT4(TL,PL) RESULT(QSAT)
+         REAL, DIMENSION(:,:,:,:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2),SIZE(PL,3),SIZE(PL,4)) :: QSAT, T, QX, D, W
+#include  "qsat.code" 
+        END FUNCTION QSAT4
+
+
+!  DQSAT
+
+       FUNCTION DQSAT0(TL,PL) RESULT(DQSAT)
+         REAL, INTENT(IN) :: TL, PL
+         REAL  DQSAT, T, DQX, D, W, QX
+#define SCALAR
+#include  "dqsat.code" 
+#undef SCALAR
+        END FUNCTION DQSAT0
+
+       FUNCTION DQSAT1(TL,PL) RESULT(DQSAT)
+         REAL, DIMENSION(:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1)) :: DQSAT, T, DQX, D, W, QX
+#include  "dqsat.code" 
+        END FUNCTION DQSAT1
+
+       FUNCTION DQSAT2(TL,PL) RESULT(DQSAT)
+         REAL, DIMENSION(:,:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2)) :: DQSAT, T, DQX, D, W, QX
+#include  "dqsat.code" 
+        END FUNCTION DQSAT2
+
+       FUNCTION DQSAT3(TL,PL) RESULT(DQSAT)
+         REAL, DIMENSION(:,:,:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2),SIZE(PL,3)) :: DQSAT, T, DQX, D, W, QX
+#include  "dqsat.code" 
+        END FUNCTION DQSAT3
+
+       FUNCTION DQSAT4(TL,PL) RESULT(DQSAT)
+         REAL, DIMENSION(:,:,:,:), INTENT(IN) :: TL, PL
+         REAL, DIMENSION(SIZE(PL,1),SIZE(PL,2),SIZE(PL,3),SIZE(PL,4)) :: DQSAT, T, DQX, D, W, QX
+#include  "dqsat.code" 
+        END FUNCTION DQSAT4
+
+      END MODULE NUMERICAL_UTILITIES

@@ -1,0 +1,102 @@
+! $Id: dqsat.code,v 1.1.1.1 2004/05/10 20:13:12 bacmj Exp $
+
+#ifdef SCALAR
+#define WHERE(A)  IF(A) THEN
+#define ELSEWHERE ELSE
+#define ENDWHERE ENDIF
+#else
+#undef WHERE
+#undef ELSEWHERE
+#undef ENDWHERE
+#endif      
+
+#include "qsat.h"
+
+      REAL       C1, C2, C3, C4, C5, C6
+      PARAMETER (C1= B1   )
+      PARAMETER (C2= B2*2.)
+      PARAMETER (C3= B3*3.)
+      PARAMETER (C4= B4*4.)
+      PARAMETER (C5= B5*5.)
+      PARAMETER (C6= B6*6.)
+
+      REAL       CI1, CI2, CI3, CI4, CI5, CI6
+      PARAMETER (CI1= BI1   )
+      PARAMETER (CI2= BI2*2.)
+      PARAMETER (CI3= BI3*3.)
+      PARAMETER (CI4= BI4*4.)
+      PARAMETER (CI5= BI5*5.)
+      PARAMETER (CI6= BI6*6.)
+      
+      REAL       D11, D12, D13, D14, D15, D16
+      PARAMETER (D11= S11   )
+      PARAMETER (D12= S12*2.)
+      PARAMETER (D13= S13*3.)
+      PARAMETER (D14= S14*4.)
+      PARAMETER (D15= S15*5.)
+      PARAMETER (D16= S16*6.)
+
+      REAL       D21, D22, D23, D24, D25, D26
+      PARAMETER (D21= S21   )
+      PARAMETER (D22= S22*2.)
+      PARAMETER (D23= S23*3.)
+      PARAMETER (D24= S24*4.)
+      PARAMETER (D25= S25*5.)
+      PARAMETER (D26= S26*6.)
+
+      T   = MAX(MIN(TL-ZEROC,TMAX),TMIN)
+      
+      
+      WHERE(T.LT.TSTARR1)
+       QX = (T*(T*(T*(T*(T*(T*S16+S15)+S14)+S13)+S12)+S11)+S10)
+       DQX = (T*(T*(T*(T*(T*D16+D15)+D14)+D13)+D12)+D11)
+      ENDWHERE
+     
+      WHERE(T.GE.TSTARR1.AND.T.LT.TSTARR2)
+       W = (TSTARR2 - T)/(TSTARR2-TSTARR1)
+       QX =     W *(T*(T*(T*(T*(T*(T*S16+S15)+S14)+S13)+S12)+S11)+S10) &
+          + (1.-W)*(T*(T*(T*(T*(T*(T*S26+S25)+S24)+S23)+S22)+S21)+S20)
+       DQX =     W *(T*(T*(T*(T*(T*D16+D15)+D14)+D13)+D12)+D11)   &
+           + (1.-W)*(T*(T*(T*(T*(T*D26+D25)+D24)+D23)+D22)+D21)
+      ENDWHERE
+     
+      WHERE(T.GE.TSTARR2.AND.T.LT.TSTARR3)
+       QX = (T*(T*(T*(T*(T*(T*S26+S25)+S24)+S23)+S22)+S21)+S20)
+       DQX = (T*(T*(T*(T*(T*D26+D25)+D24)+D23)+D22)+D21)
+      ENDWHERE
+     
+      WHERE(T.GE.TSTARR3.AND.T.LT.TSTARR4)
+       W = (TSTARR4 - T)/(TSTARR4-TSTARR3)
+       QX =     W *(T*(T*(T*(T*(T*(T*S26+S25)+S24)+S23)+S22)+S21)+S20) &
+          + (1.-W)*(T*(T*(T*(T*(T*(T*BI6+BI5)+BI4)+BI3)+BI2)+BI1)+BI0)
+       DQX =     W *(T*(T*(T*(T*(T*D26+D25)+D24)+D23)+D22)+D21)   &
+           + (1.-W)*(T*(T*(T*(T*(T*CI6+CI5)+CI4)+CI3)+CI2)+CI1)
+      ENDWHERE
+     
+      WHERE(T.GE.TSTARR4.AND.T.LT.TMIX)
+       QX = (T*(T*(T*(T*(T*(T*BI6+BI5)+BI4)+BI3)+BI2)+BI1)+BI0)
+       DQX = (T*(T*(T*(T*(T*CI6+CI5)+CI4)+CI3)+CI2)+CI1)
+      ENDWHERE
+
+      WHERE(T.GE.TMIX.AND.T.LE.0.)
+       W = (TMIX - T)/TMIX
+       QX =     W *(T*(T*(T*(T*(T*(T*B6+B5)+B4)+B3)+B2)+B1)+B0)        &
+          + (1.-W)*(T*(T*(T*(T*(T*(T*BI6+BI5)+BI4)+BI3)+BI2)+BI1)+BI0)
+       DQX =     W *(T*(T*(T*(T*(T*C6+C5)+C4)+C3)+C2)+C1)   &
+           + (1.-W)*(T*(T*(T*(T*(T*CI6+CI5)+CI4)+CI3)+CI2)+CI1)
+      ENDWHERE
+
+      WHERE(T.GT.0.)
+       QX = (T*(T*(T*(T*(T*(T*B6+B5)+B4)+B3)+B2)+B1)+B0)
+       DQX = (T*(T*(T*(T*(T*C6+C5)+C4)+C3)+C2)+C1)
+      ENDWHERE
+
+      D = (PL - ERFAC*QX)
+
+      WHERE(D.LE.0.)
+       DQSAT = 0.0
+      ELSEWHERE
+       DQSAT = DQX * PL / (D*D)
+      ENDWHERE
+
+      RETURN

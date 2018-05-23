@@ -1,0 +1,117 @@
+
+!  $Id: dqsatquad.code,v 1.1.1.1 2004/05/10 20:13:12 bacmj Exp $
+
+#ifdef SCALAR
+#define WHERE(A)  IF(A) THEN
+#define ELSEWHERE ELSE
+#define ENDWHERE ENDIF
+#else
+#undef WHERE
+#undef ELSEWHERE
+#undef ENDWHERE
+#endif      
+
+#include "qsat.h"
+
+
+
+     REAL :: E320,E280,E240,E200,E160,EMAX
+
+   EMAX =   123.9551
+   E320 =   65.46540    
+   E280 =   6.156279    
+   E240 =   0.1691129    
+   E200 =   1.0104293E-03
+   E160 =   2.8133392E-05
+     
+      
+
+
+
+
+
+      T = TL+5.      
+     
+      WHERE( (T.GE.330.) ) 
+       QX = EMAX
+      ENDWHERE
+      WHERE( (T.GE.280.) .AND. (T.LT.330.) ) 
+       QX = E280 + (E320-E280)*((T-280.)/40.)**2
+      ENDWHERE
+      WHERE( (T.GE.240.) .AND. (T.LT.280.) )
+       QX = E240 + (E280-E240)*((T-240.)/40.)**2
+      ENDWHERE
+      WHERE( (T.GE.200.) .AND. (T.LT.240.) )
+       QX = E200 + (E240-E200)*((T-200.)/40.)**2
+      ENDWHERE
+      WHERE( (T.GE.160.) .AND. (T.LT.200.) )
+       QX = E160 + (E200-E160)*((T-160.)/40.)**2
+      ENDWHERE
+      WHERE( (T.LT.160.) )
+       QX = E160
+      ENDWHERE
+
+      D = (PL - ERFAC*QX)
+
+      !QSAT = QX
+
+      WHERE(D.LE.0.)
+       QX = MAX_MIXING_RATIO
+      ELSEWHERE
+       QX = MIN(QX / D,MAX_MIXING_RATIO)
+      ENDWHERE
+
+
+      DQX =QX
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+       
+      T = TL-5.      
+     
+      WHERE( (T.GE.330.) ) 
+       QX = EMAX
+      ENDWHERE
+      WHERE( (T.GE.280.) .AND. (T.LT.330.) ) 
+       QX = E280 + (E320-E280)*((T-280.)/40.)**2
+      ENDWHERE
+      WHERE( (T.GE.240.) .AND. (T.LT.280.) )
+       QX = E240 + (E280-E240)*((T-240.)/40.)**2
+      ENDWHERE
+      WHERE( (T.GE.200.) .AND. (T.LT.240.) )
+       QX = E200 + (E240-E200)*((T-200.)/40.)**2
+      ENDWHERE
+      WHERE( (T.GE.160.) .AND. (T.LT.200.) )
+       QX = E160 + (E200-E160)*((T-160.)/40.)**2
+      ENDWHERE
+      WHERE( (T.LT.160.) )
+       QX = E160
+      ENDWHERE
+
+      D = (PL - ERFAC*QX)
+
+      !QSAT = QX
+
+      WHERE(D.LE.0.)
+       QX = MAX_MIXING_RATIO
+      ELSEWHERE
+       QX = MIN(QX / D,MAX_MIXING_RATIO)
+      ENDWHERE
+
+
+      DQX =(DQX - QX)/10.
+
+       
+ 
+
+      D = (PL - ERFAC*QX)
+
+      !QSAT = QX
+
+      WHERE(D.LE.0.)
+       DQSAT = 0.
+      ELSEWHERE
+       DQSAT = DQX
+      ENDWHERE
+
+
+      RETURN
