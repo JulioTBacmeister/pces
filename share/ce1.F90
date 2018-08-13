@@ -12,6 +12,8 @@
 !               processes except ADJUST_BCKG. Changing
 !               BCKG/PCE structure to reflect likelihood
 !               of sparse PCES in a model.
+!
+!    06/07/18 - Github version
 !-------------------------------------------------------
 
 MODULE CE1

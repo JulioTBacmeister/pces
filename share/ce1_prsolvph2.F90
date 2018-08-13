@@ -152,8 +152,19 @@ clb=CONTROL % BUOY_CONDLOAD
    !     TH(r) = 1.0-(r/R)^n
    !--------------------------------------------
    !thd = thd*2.0
-
-
+   
+   !--------------------------
+   ! 08/12/18
+   !--------------------------
+   !  Factor in front of QD:
+   !    ~ (1. - 1./epsilon )
+   !  where epsilon := m_water / m_air
+   !                   ~ 18. / 29.
+   !                   ~ 1./1.61111
+   ! So that QD factor becomes:
+   !    ~(1. - 1.6111.. ) ~ -0.61
+   !---------------------------
+   
    RHD   = - THD / PCECLST(myev)%THBCK 
 
    DO L=1,LP                     !
