@@ -13,7 +13,7 @@
 !               BCKG/PCE structure to reflect likelihood
 !               of sparse PCES in a model.
 !
-!    06/07/18 - Github version
+!    06/07/18 - First github version 
 !-------------------------------------------------------
 
 MODULE CE1
